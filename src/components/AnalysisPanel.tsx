@@ -1,5 +1,5 @@
 import React from "react";
-import { ShieldAlert, LayoutGrid } from "lucide-react";
+import { LayoutGrid } from "lucide-react";
 import { LandRecord } from "../types";
 
 interface AnalysisPanelProps {
@@ -15,7 +15,6 @@ export default function AnalysisPanel({ records }: AnalysisPanelProps) {
     "watan", "newCondition", "encroachment", "grazing", "devasthan",
     "tribal", "rehabilitation", "leasehold", "waqf", "fragmentLimit",
     "apk", "ekuk", "hypothecation", "bunding", "bhumidhari", "tagai",
-    "cultivation",
   ].map((key) => {
     const labels: Record<string, string> = {
       ceiling: "सीलिंग", forest: "वन/फॉरेस्ट",
@@ -29,7 +28,6 @@ export default function AnalysisPanel({ records }: AnalysisPanelProps) {
       apk: "अ पा क", ekuk: "एकुक",
       hypothecation: "नजर गहाण", bunding: "बडिंग",
       bhumidhari: "भूमीधारी हक्क", tagai: "तगाई",
-      cultivation: "वहिवाट",
     };
     return {
       label: labels[key] || key,
@@ -56,19 +54,12 @@ export default function AnalysisPanel({ records }: AnalysisPanelProps) {
 
         {/* Legal Risk and Restrictions Monitoring */}
         <div className="mb-6">
-          <div className="flex items-center gap-1.5 mb-3">
-            <ShieldAlert className="w-4 h-4 text-red-500" />
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Legal Flags & Restrictions
-            </h3>
-          </div>
-
           {totalCount === 0 ? (
             <div className="p-4 border border-dashed border-gray-300 rounded-xl text-center">
               <p className="text-[11px] text-gray-500">No active legal flags detected.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5">
               {flagsMapping.map((flag, index) => (
                 <div
                   key={index}
