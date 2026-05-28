@@ -423,7 +423,7 @@ export default function RecordsTable({
                           className="p-1.5 bg-gray-100 border border-gray-200 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 rounded-md transition cursor-pointer"
                           title="Edit record"
                         >
-                          <Maximize2 className="w-3.5 h-3.5" />
+                          <Edit3 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => {
