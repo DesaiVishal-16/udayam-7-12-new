@@ -152,7 +152,7 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 py-4 sm:py-6 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6">
+      <div className="flex-1 min-w-0 py-4 sm:py-6 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6">
         
         {/* Mobile top nav — visible only when sidebar is hidden */}
         <div className="flex lg:hidden items-center justify-between -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-2.5 bg-white border-b border-gray-200 sticky top-0 z-30">
@@ -201,12 +201,16 @@ export default function App() {
             </header>
 
             {/* Main split interactive section */}
-            <main className="flex flex-col gap-4 sm:gap-6" id="dashboard-main">
-              <UploadSection 
-                onRecordsExtracted={handleRecordsExtracted} 
-                apiConnected={apiConnected}
-              />
-              <AnalysisPanel records={records} />
+            <main className="flex flex-col lg:flex-row gap-4 sm:gap-6" id="dashboard-main">
+              <div className="lg:w-80 xl:w-96 shrink-0">
+                <UploadSection 
+                  onRecordsExtracted={handleRecordsExtracted} 
+                  apiConnected={apiConnected}
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <AnalysisPanel records={records} />
+              </div>
             </main>
 
             {/* Interactive 31-column Editable Table View */}
