@@ -191,38 +191,38 @@ export default function RecordsTable({
   const editRecordObj = records.find(r => r.id === editRecordId);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm animate-fade-in h-full" id="records-panel">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm animate-fade-in h-full" id="records-panel">
       
       {/* Table Management Actions bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-5">
-        <div className="flex items-stretch sm:items-center gap-3 flex-1">
-          <div className="relative flex-1">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-500">
-              <Search className="w-4 h-4" />
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 mb-4 sm:mb-5">
+        <div className="flex items-stretch sm:items-center gap-2 sm:gap-3 flex-1">
+          <div className="relative flex-1 min-w-0">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-2.5 sm:pl-3 text-zinc-500">
+              <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </span>
             <input
               type="text"
-              placeholder="Search by गाव, तालुका, जिल्हा..."
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full pl-8 sm:pl-9 pr-3 sm:pr-4 py-1.5 sm:py-2 bg-gray-50 border border-gray-200 rounded-xl text-[11px] sm:text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
 
           {/* Quick Filters */}
-          <div className="flex items-stretch gap-2 shrink-0">
+          <div className="flex items-stretch gap-1.5 sm:gap-2 shrink-0">
             <select
               value={filterDistrict}
               onChange={(e) => {
                 setFilterDistrict(e.target.value);
                 setCurrentPage(1);
               }}
-              className="border border-gray-200 rounded-xl px-2.5 py-2 text-[11px] text-gray-700 bg-gray-50 cursor-pointer focus:outline-none"
+              className="border border-gray-200 rounded-xl px-1.5 py-1.5 sm:px-2.5 sm:py-2 text-[10px] sm:text-[11px] text-gray-700 bg-gray-50 cursor-pointer focus:outline-none max-w-[90px] sm:max-w-none"
             >
-              <option value="all">All Districts (सर्व जिल्हा)</option>
+              <option value="all">सर्व जिल्हा</option>
               {uniqueDistricts.map(dist => (
                 <option key={dist} value={dist}>{dist}</option>
               ))}
@@ -234,9 +234,9 @@ export default function RecordsTable({
                 setFilterLegalFlag(e.target.value);
                 setCurrentPage(1);
               }}
-              className="border border-gray-200 rounded-xl px-2.5 py-2 text-[11px] text-gray-700 bg-gray-50 cursor-pointer focus:outline-none"
+              className="border border-gray-200 rounded-xl px-1.5 py-1.5 sm:px-2.5 sm:py-2 text-[10px] sm:text-[11px] text-gray-700 bg-gray-50 cursor-pointer focus:outline-none max-w-[90px] sm:max-w-none"
             >
-              <option value="all">All Conditions (सर्व निर्बंध)</option>
+              <option value="all">सर्व निर्बंध</option>
               {COLUMN_KEYS.slice(8).map((col) => (
                 <option key={col.field} value={col.field}>{col.field === "forest" ? "वन" : col.label} : YES</option>
               ))}
@@ -248,38 +248,41 @@ export default function RecordsTable({
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleExportToExcel}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 rounded-xl font-medium text-xs flex items-center gap-1.5 shadow-md transition duration-150 cursor-pointer"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white py-1.5 sm:py-2 px-2.5 sm:px-4 rounded-xl font-medium text-[11px] sm:text-xs flex items-center gap-1 sm:gap-1.5 shadow-md transition duration-150 cursor-pointer"
             id="export-excel-btn"
           >
-            <FileSpreadsheet className="w-4 h-4" />
-            Export Excel (.xlsx)
+            <FileSpreadsheet className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Export Excel</span>
+            <span className="sm:hidden">Export</span>
           </button>
         </div>
       </div>
 
       {/* Bulk actions banner if rows selected */}
       {selectedIds.length > 0 && (
-        <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-xl flex items-center justify-between gap-4 mb-4 text-xs">
+        <div className="p-2.5 sm:p-3 bg-indigo-50 border border-indigo-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 mb-4 text-xs">
           <div className="flex items-center gap-2">
             <span className="font-semibold px-2 py-0.5 bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-md">
-              {selectedIds.length} Selected
+              {selectedIds.length}
             </span>
-            <p className="text-gray-600">Perform bulk modifications on highlighted rows.</p>
+            <p className="text-gray-600 text-[11px]">selected</p>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={handleBulkVerify}
-              className="py-1.5 px-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-lg flex items-center gap-1 font-medium text-[11px] cursor-pointer"
+              className="py-1 sm:py-1.5 px-2 sm:px-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-lg flex items-center gap-1 font-medium text-[10px] sm:text-[11px] cursor-pointer"
             >
-              <CheckSquare className="w-3.5 h-3.5 text-emerald-500" />
-              Mark Verified
+              <CheckSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500" />
+              <span className="hidden sm:inline">Mark Verified</span>
+              <span className="sm:hidden">Verify</span>
             </button>
             <button
               onClick={handleBulkDelete}
-              className="py-1.5 px-3 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-600 rounded-lg flex items-center gap-1 font-medium text-[11px] cursor-pointer"
+              className="py-1 sm:py-1.5 px-2 sm:px-3 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-600 rounded-lg flex items-center gap-1 font-medium text-[10px] sm:text-[11px] cursor-pointer"
             >
-              <Trash2 className="w-3.5 h-3.5" />
-              Remove Selected
+              <Trash2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              <span className="hidden sm:inline">Remove Selected</span>
+              <span className="sm:hidden">Remove</span>
             </button>
           </div>
         </div>
@@ -288,11 +291,11 @@ export default function RecordsTable({
       {/* Interactive Main Records Sheet */}
       <div className="border border-gray-200 rounded-xl overflow-hidden relative shadow-sm" id="record-sheet-table">
         <div className="overflow-x-auto select-none">
-          <table className="w-full text-left border-collapse table-fixed min-w-[2000px]">
+          <table className="w-full text-left border-collapse table-fixed min-w-[700px] sm:min-w-full xl:min-w-[2000px]">
             <thead>
               <tr className="bg-gray-100 text-gray-600 border-b border-gray-200 text-[10px] uppercase font-semibold font-mono">
                 {/* Checkbox Header */}
-                <th className="p-3 w-[50px] text-center sticky left-0 bg-white z-20 shadow-md border-r border-gray-200">
+                <th className="p-2 sm:p-3 w-[40px] sm:w-[50px] text-center sticky left-0 bg-white z-20 shadow-md border-r border-gray-200">
                   <input
                     type="checkbox"
                     checked={paginatedRecords.length > 0 && paginatedRecords.every(r => selectedIds.includes(r.id))}
@@ -302,22 +305,22 @@ export default function RecordsTable({
                 </th>
 
                 {/* Left Sticky Primary geographical cols */}
-                <th className="p-3 w-[150px] sticky left-[50px] bg-white z-20 border-r border-gray-200">गाव (Village)</th>
-                <th className="p-3 w-[130px] bg-gray-50">तालुका (Taluka)</th>
-                <th className="p-3 w-[130px]">जिल्हा (District)</th>
-                <th className="p-3 w-[160px]">भू-धारणा पद्धती (Tenure)</th>
-                <th className="p-3 w-[120px]">एकूण क्षेत्र (Area)</th>
-                <th className="p-3 w-[130px]">फेरफार क्रमांक (Mutation)</th>
-                <th className="p-3 w-[140px]">File Name / Date</th>
+                <th className="p-2 sm:p-3 w-[120px] sm:w-[150px] sticky left-[40px] sm:left-[50px] bg-white z-20 border-r border-gray-200">गाव</th>
+                <th className="p-2 sm:p-3 w-[100px] sm:w-[130px] bg-gray-50">तालुका</th>
+                <th className="p-2 sm:p-3 w-[100px] sm:w-[130px] hidden sm:table-cell">जिल्हा</th>
+                <th className="p-2 sm:p-3 w-[120px] sm:w-[160px] hidden sm:table-cell">पद्धती</th>
+                <th className="p-2 sm:p-3 w-[90px] sm:w-[120px]">क्षेत्र</th>
+                <th className="p-2 sm:p-3 w-[100px] sm:w-[130px] hidden lg:table-cell">फेरफार</th>
+                <th className="p-2 sm:p-3 w-[120px] sm:w-[140px] hidden xl:table-cell">File / Date</th>
                 
-                {/* 23 YES/NO Key Columns (with custom interactive badge indicator headers) */}
+                {/* 23 YES/NO Key Columns (hidden on smaller screens, shown on xl+) */}
                 {COLUMN_KEYS.slice(8).map((col) => (
-                  <th key={col.field} className="p-3 w-[100px] text-center font-mono font-medium lowercase tracking-wider bg-gray-50 hover:bg-gray-100">
+                  <th key={col.field} className="p-3 w-[100px] text-center font-mono font-medium lowercase tracking-wider bg-gray-50 hover:bg-gray-100 hidden xl:table-cell">
                     {col.label}
                   </th>
                 ))}
 
-                <th className="p-3 w-[150px] text-center sticky right-0 bg-white z-20 border-l border-gray-200">Actions</th>
+                <th className="p-2 sm:p-3 w-[120px] sm:w-[150px] text-center sticky right-0 bg-white z-20 border-l border-gray-200">Actions</th>
               </tr>
             </thead>
             
@@ -343,42 +346,42 @@ export default function RecordsTable({
                     } ${selectedIds.includes(record.id) ? "bg-indigo-50" : ""}`}
                   >
                     {/* Checkbox sticky */}
-                    <td className="p-3 text-center sticky left-0 z-10 bg-white border-r border-gray-200">
+                    <td className="p-2 sm:p-3 text-center sticky left-0 z-10 bg-white border-r border-gray-200">
                       <input
                         type="checkbox"
                         checked={selectedIds.includes(record.id)}
                         onChange={() => handleToggleSelect(record.id)}
-                        className="w-3.5 h-3.5 accent-indigo-600 cursor-pointer rounded"
+                        className="w-3 h-3 sm:w-3.5 sm:h-3.5 accent-indigo-600 cursor-pointer rounded"
                       />
                     </td>
 
                     {/* Sticky Village (गाव) */}
-                    <td className="p-3 sticky left-[50px] z-10 bg-white border-r border-gray-200 font-medium text-gray-900 truncate shadow-[2px_0_5px_-2px_rgba(0,0,0,0.2)]">
+                    <td className="p-2 sm:p-3 sticky left-[40px] sm:left-[50px] z-10 bg-white border-r border-gray-200 font-medium text-gray-900 truncate shadow-[2px_0_5px_-2px_rgba(0,0,0,0.2)]">
                       {record.village}
                       {record.isVerified && (
-                        <span className="ml-1 px-1.5 py-0.2 bg-emerald-50 text-[8px] text-emerald-600 font-bold rounded border border-emerald-200">
-                          ✓ Verified
+                        <span className="ml-1 px-1 py-0.2 bg-emerald-50 text-[8px] text-emerald-600 font-bold rounded border border-emerald-200">
+                          ✓
                         </span>
                       )}
                     </td>
 
                     {/* Geography parameters */}
-                    <td className="p-3 text-gray-700">{record.taluka}</td>
-                    <td className="p-3 text-gray-600 font-medium">{record.district}</td>
+                    <td className="p-2 sm:p-3 text-gray-700 text-[11px] sm:text-xs">{record.taluka}</td>
+                    <td className="p-2 sm:p-3 text-gray-600 font-medium hidden sm:table-cell text-[11px] sm:text-xs">{record.district}</td>
                     
                     {/* Land tenure condition */}
-                    <td className="p-3 text-gray-600 truncate" title={record.bgTenure}>
+                    <td className="p-2 sm:p-3 text-gray-600 truncate hidden sm:table-cell text-[11px] sm:text-xs" title={record.bgTenure}>
                       {record.bgTenure}
                     </td>
 
                     {/* Area holding */}
-                    <td className="p-3 font-mono font-semibold text-indigo-600 bg-gray-50">{record.totalArea}</td>
+                    <td className="p-2 sm:p-3 font-mono font-semibold text-indigo-600 bg-gray-50 text-[11px] sm:text-xs">{record.totalArea}</td>
                     
                     {/* Last mutation index */}
-                    <td className="p-3 font-mono text-emerald-600 font-semibold">{record.lastMutation}</td>
+                    <td className="p-2 sm:p-3 font-mono text-emerald-600 font-semibold hidden lg:table-cell text-[11px] sm:text-xs">{record.lastMutation}</td>
 
                     {/* File Attachment context */}
-                    <td className="p-3">
+                    <td className="p-2 sm:p-3 hidden xl:table-cell">
                       <div className="min-w-0" title={record.fileName}>
                         <p className="text-[10px] font-semibold text-gray-700 truncate">{record.fileName}</p>
                         <p className="text-[9px] text-gray-500 mt-0.5 flex items-center gap-1 uppercase font-mono">
@@ -388,11 +391,11 @@ export default function RecordsTable({
                       </div>
                     </td>
 
-                    {/* Interactive YES/NO badge toggle triggers */}
+                    {/* Interactive YES/NO badge toggle triggers — hidden on mobile/tablet/laptop */}
                     {COLUMN_KEYS.slice(8).map((col) => {
                       const value = record[col.field] as "YES" | "NO";
                       return (
-                        <td key={col.field} className="p-3 text-center">
+                        <td key={col.field} className="p-3 text-center hidden xl:table-cell">
                           <button
                             type="button"
                             onClick={() => handleToggleYesNo(record.id, col.field)}
@@ -409,21 +412,21 @@ export default function RecordsTable({
                     })}
 
                     {/* Manual row editor triggers */}
-                    <td className="p-2 text-center sticky right-0 z-10 bg-white border-l border-gray-200 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.2)]">
-                      <div className="flex items-center justify-center gap-1 font-sans">
+                    <td className="p-1.5 sm:p-2 text-center sticky right-0 z-10 bg-white border-l border-gray-200 shadow-[-2px_0_5px_-2px_rgba(0,0,0,0.2)]">
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 font-sans">
                         <button
                           onClick={() => setViewFileRecord(record)}
-                          className="p-1.5 bg-gray-100 border border-gray-200 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 rounded-md transition cursor-pointer"
+                          className="p-1 sm:p-1.5 bg-gray-100 border border-gray-200 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 rounded-md transition cursor-pointer"
                           title="View uploaded file"
                         >
-                          <Eye className="w-3.5 h-3.5" />
+                          <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         </button>
                         <button
                           onClick={() => setEditRecordId(record.id)}
-                          className="p-1.5 bg-gray-100 border border-gray-200 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 rounded-md transition cursor-pointer"
+                          className="p-1 sm:p-1.5 bg-gray-100 border border-gray-200 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 rounded-md transition cursor-pointer"
                           title="Edit record"
                         >
-                          <Edit3 className="w-3.5 h-3.5" />
+                          <Edit3 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         </button>
                         <button
                           onClick={() => {
@@ -431,10 +434,10 @@ export default function RecordsTable({
                               onDeleteRecords([record.id]);
                             }
                           }}
-                          className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition cursor-pointer"
+                          className="p-1 sm:p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition cursor-pointer"
                           title="Delete row"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         </button>
                       </div>
                     </td>
@@ -447,8 +450,8 @@ export default function RecordsTable({
       </div>
 
       {/* Pagination Footer */}
-      <div className="flex items-center justify-between text-xs mt-4 font-mono text-gray-500">
-        <p>
+      <div className="flex items-center justify-between text-[10px] sm:text-xs mt-4 font-mono text-gray-500">
+        <p className="hidden sm:block">
           Showing {filteredRecords.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0} to{" "}
           {Math.min(currentPage * itemsPerPage, filteredRecords.length)} of {filteredRecords.length} records
         </p>
@@ -479,7 +482,7 @@ export default function RecordsTable({
       {/* Slide-over Side Drawer Edit Card */}
       {editRecordId && editRecordObj && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex justify-end" id="edit-drawer-overlay">
-          <div className="bg-white w-full max-w-xl h-full flex flex-col justify-between shadow-2xl relative border-l border-gray-200 overflow-hidden animate-slide-in">
+          <div className="bg-white w-full max-w-xl h-full flex flex-col justify-between shadow-2xl relative border-l border-gray-200 overflow-hidden animate-slide-in max-sm:max-w-full">
             {/* Drawer Header */}
             <div className="p-6 border-b border-gray-200 flex items-center justify-between bg-gray-50">
               <div>
@@ -506,7 +509,7 @@ export default function RecordsTable({
                 <h4 className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 mb-3 border-b border-gray-200 pb-1">
                   Primary Location & Geography
                 </h4>
-                <div className="grid grid-cols-3 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                   <div>
                     <label className="block text-[10px] text-gray-500 font-medium mb-1">गाव (Village)</label>
                     <input
@@ -542,8 +545,8 @@ export default function RecordsTable({
                 <h4 className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 mb-3 border-b border-gray-200 pb-1">
                   Tenure, Area & Mutation
                 </h4>
-                <div className="grid grid-cols-3 gap-3.5">
-                  <div className="col-span-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                  <div className="sm:col-span-2">
                     <label className="block text-[10px] text-gray-500 font-medium mb-1">भू-धारणा पद्धती (Tenure Type)</label>
                     <input
                       type="text"
@@ -598,7 +601,7 @@ export default function RecordsTable({
                 <h4 className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 mb-3 border-b border-gray-200 pb-1">
                   Conditions & Legal Keywords
                 </h4>
-                <div className="grid grid-cols-2 gap-3.5 max-h-[300px] overflow-y-auto pr-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-h-[300px] overflow-y-auto pr-1">
                   {COLUMN_KEYS.slice(8).map((col) => {
                     const value = editRecordObj[col.field] as "YES" | "NO";
                     return (

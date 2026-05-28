@@ -21,87 +21,6 @@ import AnalysisPanel from "./components/AnalysisPanel";
 import RecordsTable from "./components/RecordsTable";
 import ManualRecordDialog from "./components/ManualRecordDialog";
 
-// Initial seed record to showcase features on fresh start
-const SEED_RECORD: LandRecord = {
-  id: "seed-item-1",
-  date: "2026-05-27",
-  fileName: "seed_saoatbara_sample.pdf",
-  bgTenure: "नवीन शर्त (अविभाज्य)",
-  village: "वाकडी",
-  taluka: "कोपरगाव",
-  district: "अहमदनगर",
-  totalArea: "२.४५ हे.आर.",
-  lastMutation: "४५३२",
-  
-  // Specific Seeds
-  ceiling: "NO",
-  forest: "YES",  // Forest indicator YES
-  inam: "NO",
-  bhoodan: "NO",
-  gaothan: "NO",
-  kul: "YES",     // Tenant rights YES
-  watan: "NO",
-  newCondition: "YES", // Condition YES
-  encroachment: "NO",
-  grazing: "NO",
-  devasthan: "NO",
-  tribal: "NO",
-  rehabilitation: "NO",
-  leasehold: "NO",
-  waqf: "NO",
-  fragmentLimit: "NO",
-  apk: "NO",
-  ekuk: "NO",
-  hypothecation: "NO",
-  bunding: "NO",
-  bhumidhari: "NO",
-  tagai: "NO",
-  cultivation: "YES", // Cultivated YES
-
-  isVerified: false,
-  confidenceScore: 92,
-};
-
-const SEED_RECORD_2: LandRecord = {
-  id: "seed-item-2",
-  date: "2026-05-26",
-  fileName: "7-12_mula_extract.jpeg",
-  bgTenure: "भोगवटदार वर्ग - १", // Occupant Class 1
-  village: "मुळाणे",
-  taluka: "सिन्नर",
-  district: "नाशिक",
-  totalArea: "१.८५ हे.आर.",
-  lastMutation: "३१९२",
-  
-  // Specific Seeds
-  ceiling: "NO",
-  forest: "NO",
-  inam: "NO",
-  bhoodan: "NO",
-  gaothan: "NO",
-  kul: "NO",
-  watan: "NO",
-  newCondition: "NO",
-  encroachment: "NO",
-  grazing: "YES",  // Grazing land
-  devasthan: "NO",
-  tribal: "YES", // Tribal land check YES
-  rehabilitation: "NO",
-  leasehold: "NO",
-  waqf: "NO",
-  fragmentLimit: "YES", // Fragment limit YES
-  apk: "NO",
-  ekuk: "NO",
-  hypothecation: "YES", // Hypothecated YES
-  bunding: "NO",
-  bhumidhari: "NO",
-  tagai: "NO",
-  cultivation: "YES", 
-
-  isVerified: true,
-  confidenceScore: 96,
-};
-
 export default function App() {
   const [records, setRecords] = useState<LandRecord[]>([]);
   const [apiConnected, setApiConnected] = useState(false);
@@ -120,7 +39,7 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Synchronise localStorage on startup
+  // Load per-browser data from localStorage on startup
   useEffect(() => {
     const cached = localStorage.getItem("maharashtra_7_12_extracted_records");
     if (cached) {
@@ -128,10 +47,7 @@ export default function App() {
         setRecords(JSON.parse(cached));
       } catch (err) {
         console.error("Failed to parse cached 7_12 records:", err);
-        setRecords([SEED_RECORD, SEED_RECORD_2]);
       }
-    } else {
-      setRecords([SEED_RECORD, SEED_RECORD_2]);
     }
 
     // Ping Backend API Connection status checker
@@ -176,8 +92,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white text-gray-700 font-sans selection:bg-indigo-100 selection:text-indigo-700 antialiased flex" id="applet-container">
       
-      {/* Sidebar */}
-      <aside className={`${sidebarCollapsed ? "w-16" : "w-60"} shrink-0 bg-white border-r border-gray-200 flex flex-col h-screen sticky top-0 transition-all duration-200`} id="sidebar">
+      {/* Sidebar — hidden on mobile */}
+      <aside className={`${sidebarCollapsed ? "w-16" : "w-60"} shrink-0 bg-white border-r border-gray-200 hidden lg:flex flex-col h-screen sticky top-0 transition-all duration-200`} id="sidebar">
         {/* Logo Section */}
         <div className={`${sidebarCollapsed ? "p-3" : "p-5"} border-b border-gray-100`}>
           <div className={`flex ${sidebarCollapsed ? "justify-center" : "items-center gap-3"}`}>
@@ -226,7 +142,7 @@ export default function App() {
         <div className="p-3 border-t border-gray-100">
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className={`w-full flex items-center ${sidebarCollapsed ? "justify-center" : "gap-3"} px-3 py-2 rounded-xl text-sm font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-150 cursor-pointer`}
+            className={`w-full flex items-center ${sidebarCollapsed ? "justify-center" : "gap-3"} px-3 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-200 transition-all duration-150 cursor-pointer`}
             title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <ChevronLeft className={`w-4 h-4 shrink-0 transition-transform duration-200 ${sidebarCollapsed ? "rotate-180" : ""}`} />
@@ -236,37 +152,61 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 py-6 px-6 md:px-8 max-w-7xl mx-auto flex flex-col gap-6">
+      <div className="flex-1 py-4 sm:py-6 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6">
+        
+        {/* Mobile top nav — visible only when sidebar is hidden */}
+        <div className="flex lg:hidden items-center justify-between -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-2.5 bg-white border-b border-gray-200 sticky top-0 z-30">
+          <div className="flex items-center gap-2">
+            <img src={logoUrl} alt="" className="w-7 h-7 object-contain" />
+            <span className="text-sm font-bold text-gray-900 leading-tight">Udayam</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setActiveTab("dashboard")}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                activeTab === "dashboard"
+                  ? "bg-indigo-50 text-indigo-700"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => setActiveTab("history")}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
+                activeTab === "history"
+                  ? "bg-indigo-50 text-indigo-700"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              History
+            </button>
+          </div>
+        </div>
+
         {activeTab === "dashboard" ? (
           <>
             {/* Dashboard Header */}
-            <header className="border border-gray-200 bg-white rounded-2xl p-5 shadow-sm flex items-center justify-between" id="dashboard-header">
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-                <LayoutDashboard className="w-6 h-6 text-indigo-600" />
-                Dashboard
-                <span className="text-gray-300 font-light text-xl md:text-2xl">-</span>
-                <span className="text-base md:text-lg font-bold text-gray-900">7/12 Smart Scan</span>
+            <header className="border border-gray-200 bg-white rounded-2xl p-3 sm:p-5 shadow-sm flex items-center justify-between" id="dashboard-header">
+              <h1 className="text-sm sm:text-xl md:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-1.5 sm:gap-2">
+                <LayoutDashboard className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600" />
+                <span className="hidden sm:inline">Dashboard</span>
+                <span className="text-gray-300 font-light hidden sm:inline text-xl md:text-2xl">-</span>
+                <span className="text-xs sm:text-base md:text-lg font-bold text-gray-900">7/12 Smart Scan</span>
               </h1>
-              <div className="flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-xl px-3 py-1.5">
+              <div className="hidden sm:flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-xl px-3 py-1.5">
                 <Globe className="w-3.5 h-3.5 text-gray-400" />
                 <span className="text-gray-600 font-mono text-[10px]">{utcDate}</span>
               </div>
             </header>
 
             {/* Main split interactive section */}
-            <main className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="dashboard-main">
-              {/* Upload module (Col 5) */}
-              <div className="lg:col-span-5 flex flex-col gap-6 h-full">
-                <UploadSection 
-                  onRecordsExtracted={handleRecordsExtracted} 
-                  apiConnected={apiConnected}
-                />
-              </div>
-
-              {/* Real-time Analytics Visualisation Board (Col 7) */}
-              <div className="lg:col-span-7 h-full">
-                <AnalysisPanel records={records} />
-              </div>
+            <main className="flex flex-col gap-4 sm:gap-6" id="dashboard-main">
+              <UploadSection 
+                onRecordsExtracted={handleRecordsExtracted} 
+                apiConnected={apiConnected}
+              />
+              <AnalysisPanel records={records} />
             </main>
 
             {/* Interactive 31-column Editable Table View */}
@@ -300,9 +240,9 @@ export default function App() {
         ) : (
           <>
             {/* History Header */}
-            <header className="border border-gray-200 bg-white rounded-2xl p-5 shadow-sm flex items-center justify-between" id="history-header">
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-                <History className="w-6 h-6 text-indigo-600" />
+            <header className="border border-gray-200 bg-white rounded-2xl p-4 sm:p-5 shadow-sm flex items-center justify-between" id="history-header">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                <History className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
                 History
               </h1>
               <div className="flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-xl px-3 py-1.5">
