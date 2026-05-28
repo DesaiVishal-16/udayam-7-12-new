@@ -135,6 +135,7 @@ For SHORT or COMMON words such as:
 - कुळ
 - वतन
 - तगाई
+- वहिवाट
 
 require stronger direct visual evidence.
 
@@ -189,6 +190,7 @@ Actively inspect the document for these Marathi legal/revenue words even if hand
 आदिवासी
 चरई
 सीलिंग
+वहिवाट
 
 ==================================================
 ANTI-HALLUCINATION RULES
@@ -202,6 +204,7 @@ Do NOT infer these words using nearby context alone:
 - कुळ
 - वक्फ
 - इनाम
+- वहिवाट
 
 These require stronger direct visual evidence.
 
