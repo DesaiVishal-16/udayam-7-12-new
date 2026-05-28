@@ -218,15 +218,15 @@ export default function UploadSection({ onRecordsExtracted, apiConnected }: Uplo
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm h-full flex flex-col" id="upload-panel">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm h-full flex flex-col" id="upload-panel">
       {/* Visual Header */}
-      <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 leading-tight flex items-center gap-2">
-          <Upload className="w-5 h-5 text-indigo-600" />
+      <div className="mb-3 sm:mb-4">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900 leading-tight flex items-center gap-2">
+          <Upload className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
           Upload Documents
         </h2>
-        <p className="text-xs text-gray-500 mt-1">
-          Provide high-contrast scanned copies, photos, or digital PDFs of 7/12 Land Extracts.
+        <p className="text-[11px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">
+          Upload scanned 7/12 extracts (PDF, JPG, PNG).
         </p>
       </div>
 
@@ -239,7 +239,7 @@ export default function UploadSection({ onRecordsExtracted, apiConnected }: Uplo
         onDragLeave={() => setIsDragging(false)}
         onDrop={fileDropHandler}
         onClick={() => fileInputRef.current?.click()}
-        className={`border-2 border-dashed rounded-xl p-8 py-10 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center ${
+        className={`border-2 border-dashed rounded-xl p-5 sm:p-8 sm:py-10 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center ${
           isDragging
             ? "border-indigo-500 bg-indigo-50"
             : "border-gray-300 hover:border-gray-400 bg-gray-50/80"
@@ -295,9 +295,9 @@ export default function UploadSection({ onRecordsExtracted, apiConnected }: Uplo
       {/* List of files selected */}
       {selectedFiles.length > 0 && (
         <div className="mt-6 border-t border-gray-200 pt-5">
-          <div className="flex items-center justify-between mb-3 text-xs">
+                  <div className="flex items-center justify-between mb-2 sm:mb-3 text-[11px] sm:text-xs">
             <span className="font-medium text-gray-600">
-              Queue Details ({selectedFiles.length} file{selectedFiles.length !== 1 ? "s" : ""})
+              {selectedFiles.length} file{selectedFiles.length !== 1 ? "s" : ""}
             </span>
             <button
               onClick={() => setSelectedFiles([])}
@@ -316,7 +316,7 @@ export default function UploadSection({ onRecordsExtracted, apiConnected }: Uplo
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -10 }}
-                  className="p-3 bg-gray-50 border border-gray-200 rounded-xl relative flex items-center justify-between overflow-hidden"
+                  className="p-2.5 sm:p-3 bg-gray-50 border border-gray-200 rounded-xl relative flex items-center justify-between overflow-hidden"
                   id={`file-item-${item.id}`}
                 >
                   <div className="flex items-center gap-3 w-[70%]">

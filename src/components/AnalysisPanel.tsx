@@ -18,18 +18,18 @@ export default function AnalysisPanel({ records }: AnalysisPanelProps) {
     "cultivation",
   ].map((key) => {
     const labels: Record<string, string> = {
-      ceiling: "सीलिंग (Ceiling)", forest: "वन/फॉरेस्ट (Forest)",
-      inam: "इनाम (Inam)", bhoodan: "भूदान (Bhoodan)",
-      gaothan: "गावठाण (Gaothan)", kul: "कुळ (Kul)",
-      watan: "वतन (Watan)", newCondition: "नवीन शर्त (New Condition)",
-      encroachment: "अतिक्रमण (Encroachment)", grazing: "गुरे चरण/चरई (Grazing)",
-      devasthan: "देवस्थान (Devasthan)", tribal: "कलम ३६ आदिवासी (Tribal)",
-      rehabilitation: "पुनर्वसन (Rehabilitation)", leasehold: "भाडेपट्टा (Leasehold)",
-      waqf: "वक्फ (Waqf)", fragmentLimit: "तुकडा/तुकडेबंदी (Fragment)",
-      apk: "अ पा क (APK)", ekuk: "एकुक (Ekuk)",
-      hypothecation: "नजर गहाण (Hypothecation)", bunding: "बडिंग (Bunding)",
-      bhumidhari: "भूमीधारी हक्क (Bhumidhari)", tagai: "तगाई (Tagai)",
-      cultivation: "वहिवाट (Cultivation)",
+      ceiling: "सीलिंग", forest: "वन/फॉरेस्ट",
+      inam: "इनाम", bhoodan: "भूदान",
+      gaothan: "गावठाण", kul: "कुळ",
+      watan: "वतन", newCondition: "नवीन शर्त",
+      encroachment: "अतिक्रमण", grazing: "गुरे चरण/चरई",
+      devasthan: "देवस्थान", tribal: "कलम ३६ आदिवासी",
+      rehabilitation: "पुनर्वसन", leasehold: "भाडेपट्टा",
+      waqf: "वक्फ", fragmentLimit: "तुकडा/तुकडेबंदी",
+      apk: "अ पा क", ekuk: "एकुक",
+      hypothecation: "नजर गहाण", bunding: "बडिंग",
+      bhumidhari: "भूमीधारी हक्क", tagai: "तगाई",
+      cultivation: "वहिवाट",
     };
     return {
       label: labels[key] || key,
@@ -39,16 +39,16 @@ export default function AnalysisPanel({ records }: AnalysisPanelProps) {
   });
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 h-full flex flex-col justify-between animate-fade-in shadow-sm" id="analytics-panel">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 h-full flex flex-col justify-between animate-fade-in shadow-sm" id="analytics-panel">
       <div>
         {/* Module Header */}
-        <div className="mb-5">
-          <h2 className="text-lg font-semibold text-gray-900 leading-tight flex items-center gap-2">
-            <LayoutGrid className="w-5 h-5 text-indigo-600" />
+        <div className="mb-4 sm:mb-5">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-900 leading-tight flex items-center gap-2">
+            <LayoutGrid className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
             Land Record Intelligence
           </h2>
-          <p className="text-xs text-gray-500 mt-1">
-            Real-time analytics and revenue metrics parsed from uploaded Extracts.
+          <p className="text-[11px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1">
+            Analytics parsed from uploaded extracts.
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export default function AnalysisPanel({ records }: AnalysisPanelProps) {
               <p className="text-[11px] text-gray-500">No active legal flags detected.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5">
               {flagsMapping.map((flag, index) => (
                 <div
                   key={index}
