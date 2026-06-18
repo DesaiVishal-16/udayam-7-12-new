@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
+import helmet from "helmet";
 import { GoogleGenAI } from "@google/genai";
 import { createServer as createViteServer } from "vite";
 
@@ -10,9 +11,11 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
+app.use(helmet());
+
 // Boost body limits for base64 file transfer (PDFs & photos)
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // Initialize Gemini AI client using API key
 let ai: GoogleGenAI | null = null;

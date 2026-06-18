@@ -60,7 +60,7 @@ export default function ManualRecordDialog({ isOpen, onClose, onSave }: ManualRe
     }
 
     const newRow: LandRecord = {
-      id: Math.random().toString(36).substring(7),
+      id: crypto.randomUUID(),
       date: new Date().toISOString().split("T")[0],
       fileName: "Manual Form Entry",
       bgTenure: bgTenure || "नवीन अविभाज्य पद्धती",
@@ -71,7 +71,6 @@ export default function ManualRecordDialog({ isOpen, onClose, onSave }: ManualRe
       lastMutation: lastMutation || "—",
       ...flags,
       isVerified: true,
-      confidenceScore: 100, // Manual entries are verified by default
     };
 
     onSave(newRow);

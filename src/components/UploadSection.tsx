@@ -46,7 +46,7 @@ export default function UploadSection({ onRecordsExtracted, apiConnected }: Uplo
         return ["pdf", "png", "jpg", "jpeg"].includes(ext || "");
       })
       .map((file) => ({
-        id: Math.random().toString(36).substring(7),
+id: crypto.randomUUID(),
         file,
         status: "queued",
         progress: 0,
@@ -171,7 +171,6 @@ export default function UploadSection({ onRecordsExtracted, apiConnected }: Uplo
       cultivation: getYesNo(30),
 
       isVerified: false,
-      confidenceScore: Math.floor(Math.random() * 15) + 81, // Realistic 81%-96% score
       fileData: base64,
       fileType: selectedFile.file.type || "application/pdf",
     };

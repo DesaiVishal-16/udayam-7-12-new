@@ -183,12 +183,13 @@ User-supplied `file.name` is interpolated directly into the Gemini AI prompt wit
 
 ## 7. 🟡 MEDIUM FINDINGS
 
-### M-1: No Security Headers
+### M-1: No Security Headers ✅ FIXED
 
 | Field | Detail |
 |-------|--------|
 | **File** | `server.ts` (entire file) |
 | **Severity** | 🟡 MEDIUM |
+| **Status** | ✅ Resolved — added `helmet` middleware with secure defaults |
 
 Missing HTTP security headers:
 - `Content-Security-Policy`
@@ -240,12 +241,13 @@ The server is accessible from all network interfaces, including public ones if d
 
 ---
 
-### M-4: Excessive 50MB Request Body Limit
+### M-4: Excessive 50MB Request Body Limit ✅ FIXED
 
 | Field | Detail |
 |-------|--------|
 | **File** | `server.ts:14-15` |
 | **Severity** | 🟡 MEDIUM |
+| **Status** | ✅ Resolved — reduced from 50MB to 10MB |
 
 ```typescript
 app.use(express.json({ limit: "50mb" }));
@@ -311,12 +313,13 @@ Additionally, line 393 returns the full Gemini AI raw response text to the clien
 
 ## 8. 🔵 LOW FINDINGS
 
-### L-1: Weak ID Generation
+### L-1: Weak ID Generation ✅ FIXED
 
 | Field | Detail |
 |-------|--------|
 | **Files** | `src/components/UploadSection.tsx:49`, `src/components/ManualRecordDialog.tsx:63` |
 | **Severity** | 🔵 LOW |
+| **Status** | ✅ Resolved — replaced `Math.random()` with `crypto.randomUUID()` |
 
 ```typescript
 id: Math.random().toString(36).substring(7)
@@ -345,12 +348,13 @@ No request logging, access logging, or audit logging is implemented. Cannot trac
 
 ---
 
-### L-3: Fake Confidence Score
+### L-3: Fake Confidence Score ✅ FIXED
 
 | Field | Detail |
 |-------|--------|
 | **File** | `src/components/UploadSection.tsx:174` |
 | **Severity** | 🔵 LOW |
+| **Status** | ✅ Resolved — removed `confidenceScore` field entirely from type and all usages |
 
 ```typescript
 confidenceScore: Math.floor(Math.random() * 15) + 81,
@@ -359,8 +363,6 @@ confidenceScore: Math.floor(Math.random() * 15) + 81,
 The confidence score is randomly generated (81-96), not based on actual AI confidence. This misleads users about data reliability.
 
 **Remediation:** Use actual confidence metrics from the AI response, or remove the field.
-
-**⚠️ Note:** This is primarily a code quality / UX ethics issue rather than a security vulnerability. It inflates the LOW severity count and should be deprioritized relative to actual security findings.
 
 ---
 
