@@ -343,14 +343,37 @@ app.post("/api/extract", async (req, res) => {
       return res.status(400).json({ error: "Missing uploaded file data." });
     }
 
-    const geminiClient = getGeminiAI();
-
     const cleanBase64 = file.base64.replace(/^data:.*?;base64,/, "");
-    
-    // Set proper mime types
+
+    // Input validation: file size, MIME type, magic bytes
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    const ALLOWED_TYPES = ["image/png", "image/jpeg", "application/pdf"];
+
+    const decodedSize = Math.ceil(cleanBase64.length * 3 / 4);
+    if (decodedSize > MAX_FILE_SIZE) {
+      return res.status(400).json({ error: "File too large. Maximum allowed size is 10MB." });
+    }
+
     let mimeType = file.type || "application/pdf";
-    if (file.name && file.name.endsWith(".png")) mimeType = "image/png";
-    if (file.name && (file.name.endsWith(".jpg") || file.name.endsWith(".jpeg"))) mimeType = "image/jpeg";
+    if (file.name?.endsWith(".png")) mimeType = "image/png";
+    else if (file.name?.endsWith(".jpg") || file.name?.endsWith(".jpeg")) mimeType = "image/jpeg";
+
+    if (!ALLOWED_TYPES.includes(mimeType)) {
+      return res.status(400).json({ error: "Unsupported file type. Only PDF, PNG, and JPEG are allowed." });
+    }
+
+    const headerHex = Buffer.from(cleanBase64, "base64").subarray(0, 8).toString("hex");
+    const magicBytes: Record<string, string[]> = {
+      "image/png": ["89504e47"],
+      "image/jpeg": ["ffd8"],
+      "application/pdf": ["25504446"],
+    };
+    const validMagic = magicBytes[mimeType]?.some((m) => headerHex.startsWith(m));
+    if (!validMagic) {
+      return res.status(400).json({ error: "File content does not match the declared file type." });
+    }
+
+    const geminiClient = getGeminiAI();
 
     const promptMessage = `Process the uploaded file with legal precision based on your system instructions. Fill in accurate values. If visual inspection is unclear, use your training to locate the words. Return the complete 31-column JSON immediately. Ensure the date column strictly has the modern format or date of upload.`;
 

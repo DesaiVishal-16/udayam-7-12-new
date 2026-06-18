@@ -114,12 +114,13 @@ The `POST /api/extract` endpoint accepts arbitrary file uploads and forwards the
 
 ## 6. 🔴 HIGH FINDINGS
 
-### H-1: No Server-Side Input Validation
+### H-1: No Server-Side Input Validation ✅ FIXED
 
 | Field | Detail |
 |-------|--------|
 | **File** | `server.ts:340-354` |
 | **Severity** | 🔴 HIGH |
+| **Status** | ✅ Resolved — added file size check (<10MB), MIME type whitelist, and magic byte verification |
 
 **Issues:**
 - No file size validation (attacker can send gigabytes of base64 data)
