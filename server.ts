@@ -328,10 +328,7 @@ function getGeminiAI(): GoogleGenAI {
 
 // API: Health status
 app.get("/api/health", (req, res) => {
-  res.json({
-    status: "ok",
-    hasApiKey: !!process.env.GEMINI_API_KEY,
-  });
+  res.json({ status: "ok" });
 });
 
 // API: Extract land records from file payload
@@ -352,7 +349,7 @@ app.post("/api/extract", async (req, res) => {
     if (file.name && file.name.endsWith(".png")) mimeType = "image/png";
     if (file.name && (file.name.endsWith(".jpg") || file.name.endsWith(".jpeg"))) mimeType = "image/jpeg";
 
-    const promptMessage = `Please process this file named: "${file.name}" with legal precision based on your system instructions. Fill in accurate values. If visual inspection is unclear, use your training to locate the words. Return the complete 31-column JSON immediately. Ensure the date column strictly has the modern format or date of upload.`;
+    const promptMessage = `Process the uploaded file with legal precision based on your system instructions. Fill in accurate values. If visual inspection is unclear, use your training to locate the words. Return the complete 31-column JSON immediately. Ensure the date column strictly has the modern format or date of upload.`;
 
     // Multimodal Call to Gemini AI
     const response = await geminiClient.models.generateContent({
@@ -389,8 +386,7 @@ app.post("/api/extract", async (req, res) => {
     } catch (parseError) {
       console.error("Gemini AI output formatting error. Raw output was:", responseText);
       return res.status(500).json({
-        error: "Failed to parse the structured extractor output from Gemini AI. Raw response was returned inside rawField.",
-        raw: responseText,
+        error: "Failed to parse the structured extractor output from Gemini AI.",
       });
     }
 
@@ -398,7 +394,7 @@ app.post("/api/extract", async (req, res) => {
     
   } catch (err: any) {
     console.error("API Error during Extraction:", err);
-    return res.status(500).json({ error: err.message || "Unknown error during extractor execution." });
+    return res.status(500).json({ error: "Internal server error during extraction." });
   }
 });
 
