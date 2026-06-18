@@ -662,6 +662,7 @@ export default function RecordsTable({
               ) : (
                 <iframe
                   src={viewFileRecord.fileData}
+                  sandbox=""
                   className="w-full h-[70vh] rounded-lg shadow-md bg-white"
                   title={viewFileRecord.fileName}
                 />
