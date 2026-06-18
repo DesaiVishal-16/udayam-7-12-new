@@ -54,7 +54,7 @@ export default function App() {
     fetch("/api/health")
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "ok" && data.hasApiKey) {
+        if (data.status === "ok") {
           setApiConnected(true);
         }
       })
