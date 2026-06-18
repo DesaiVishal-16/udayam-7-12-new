@@ -385,12 +385,13 @@ The `.env` file with a placeholder key (`"your-gemini-api-key-here"`) is present
 
 ---
 
-### L-5: No Dependency Vulnerability Scanning
+### L-5: No Dependency Vulnerability Scanning ✅ FIXED
 
 | Field | Detail |
 |-------|--------|
 | **File** | `package.json` |
 | **Severity** | 🔵 LOW |
+| **Status** | ✅ Resolved — added `.npmrc` with `min-release-age=7d` (supply chain delay), `audit=true`, and `audit-level=high` |
 
 The project does not perform any dependency vulnerability scanning (e.g., `npm audit`, `snyk`, `Dependabot`). Dependencies include:
 - `@google/genai` (newer package — vetting history is limited)
