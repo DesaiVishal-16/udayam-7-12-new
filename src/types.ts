@@ -37,12 +37,11 @@ export interface LandRecord {
   // Metadata
   isVerified: boolean;
   notes?: string;
-  confidenceScore?: number; // Simulated AI extraction confidence based on matches
   fileData?: string; // Base64 file data for viewing
   fileType?: string; // MIME type of the file
 }
 
-export type LandRecordFieldName = keyof Omit<LandRecord, "id" | "isVerified" | "notes" | "confidenceScore">;
+export type LandRecordFieldName = keyof Omit<LandRecord, "id" | "isVerified" | "notes">;
 
 export const COLUMN_KEYS: { label: string; field: LandRecordFieldName }[] = [
   { label: "Date", field: "date" },
