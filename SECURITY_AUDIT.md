@@ -332,12 +332,13 @@ Uses `Math.random()` (cryptographically insecure) with a 7-character substring (
 
 ---
 
-### L-2: No Audit Logging
+### L-2: No Audit Logging ✅ NOT APPLICABLE
 
 | Field | Detail |
 |-------|--------|
 | **File** | `server.ts` (entire file) |
 | **Severity** | 🔵 LOW |
+| **Status** | ✅ Not needed — deployment on Railway/Render provides built-in HTTP request logging |
 
 No request logging, access logging, or audit logging is implemented. Cannot trace:
 - Who accessed the API
