@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import { GoogleGenAI } from "@google/genai";
 import { createServer as createViteServer } from "vite";
+import 'dotenv/config';
 
 // Load environment variables
 dotenv.config();
@@ -396,6 +397,16 @@ app.post("/api/extract", async (req, res) => {
         responseMimeType: "application/json",
       },
     });
+
+    if (response.usageMetadata) {
+      console.log("=== Gemini API Token Usage ===");
+      console.log("Model:", "gemini-3.5-flash");
+      console.log("File:", file.name);
+      console.log("Prompt tokens:", response.usageMetadata.promptTokenCount);
+      console.log("Candidates tokens:", response.usageMetadata.candidatesTokenCount);
+      console.log("Total tokens:", response.usageMetadata.totalTokenCount);
+      console.log("================================");
+    }
 
     const responseText = response.text || "";
     
