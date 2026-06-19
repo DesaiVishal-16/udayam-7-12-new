@@ -397,6 +397,16 @@ app.post("/api/extract", async (req, res) => {
       },
     });
 
+    if (response.usageMetadata) {
+      console.log("=== Gemini API Token Usage ===");
+      console.log("Model:", "gemini-3.5-flash");
+      console.log("File:", file.name);
+      console.log("Prompt tokens:", response.usageMetadata.promptTokenCount);
+      console.log("Candidates tokens:", response.usageMetadata.candidatesTokenCount);
+      console.log("Total tokens:", response.usageMetadata.totalTokenCount);
+      console.log("================================");
+    }
+
     const responseText = response.text || "";
     
     // Safely parse JSON blocks
